@@ -1,34 +1,36 @@
 <?php
-  include 'contents.php';
+  include './functions/GetContents.php';
   include './functions/PostDate.php';
 
+  $url = 'https://mamot.fr/api/v1/timelines/public';
+  $contents = new GetContents($url);
   $noImg = 'https://place-hold.it/90x101?text=Pas d\'image';
 
-foreach($pages as $page):
-  $postDate = new PostDate($page->created_at);
+foreach($contents->getApiContents() as $content):
+  $postDate = new PostDate($content->created_at);
   $postSince = $postDate->getPostSince();
   $getPostDate = $postDate->getPostDate();
 ?>
   <div class="status card text-white bg-dark">
     <div class="author card-header">
-        <a class="avatar" href="<?= $page->account->url ?>">
-            <img class="avatar" src="<?= $page->account->avatar ?>">
+        <a class="avatar" href="<?= $content->account->url ?>">
+            <img class="avatar" src="<?= $content->account->avatar ?>">
         </a>
         <div class="author-info">
-            <a class="author-displayname text-success" href="<?= $page->account->url ?>"><?= $page->account->username ?></a>
+            <a class="author-displayname text-success" href="<?= $content->account->url ?>"><?= $content->account->username ?></a>
         </div>
     </div>
     <div class="content">
-        <p> <span class="text-danger"><?= $page->spoiler_text ? $page->spoiler_text . '<br />' : null ?></span> <?= $page->content ?></p>
+        <p> <span class="text-danger"><?= $content->spoiler_text ? $content->spoiler_text . '<br />' : null ?></span> <?= $content->content ?></p>
     </div>
     <div class="enclosures">
       <?php
-        if(!empty($page->media_attachments)):
-          for($i = 0; $i < count($page->media_attachments); $i++):
-            if($page->media_attachments[$i]->type === 'image'):
+        if(!empty($content->media_attachments)):
+          for($i = 0; $i < count($content->media_attachments); $i++):
+            if($content->media_attachments[$i]->type === 'image'):
       ?>
-              <a class="enclosure" href="<?= $page->media_attachments[$i]->url ?>">
-                  <img src="<?= $page->media_attachments[$i]->preview_url ?>" alt="">
+              <a class="enclosure" href="<?= $content->media_attachments[$i]->url ?>">
+                  <img src="<?= $content->media_attachments[$i]->preview_url ?>" alt="">
               </a>
       <?php
             endif;
@@ -37,26 +39,26 @@ foreach($pages as $page):
       ?>
     </div>
     <?php
-      if(!empty($page->card)):
+      if(!empty($content->card)):
     ?>
         <div class="open-graph">
-          <a class="d-flex" href="<?= $page->card->url ?>">
+          <a class="d-flex" href="<?= $content->card->url ?>">
             <div class="card-image">
-              <img src="<?= $page->card->image ? $page->card->image : $noImg ?>" alt="">
+              <img src="<?= $content->card->image ? $content->card->image : $noImg ?>" alt="">
             </div>
             <div class="card-content">
-              <span class="card-host"><?= $page->card->provider_name ?></span>
+              <span class="card-host"><?= $content->card->provider_name ?></span>
               <div class="card-title">
-                <h5><?= $page->card->title ?></h5>
+                <h5><?= $content->card->title ?></h5>
               </div>
-              <p class="card-description"><?= $page->card->description ?></p>
+              <p class="card-description"><?= $content->card->description ?></p>
             </div>
           </a>
         </div>
     <?php
       endif;
     ?>
-      <a title="<?= $getPostDate ?>" class="card-footer text-success text-center" href="<?= $page->url ?>" class="date"><?= $postSince ?></a>
+      <a title="<?= $getPostDate ?>" class="card-footer text-success text-center" href="<?= $content->url ?>" class="date"><?= $postSince ?></a>
   </div>
 <?php
 endforeach;

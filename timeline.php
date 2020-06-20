@@ -1,6 +1,6 @@
 <?php
-  include './functions/GetContents.php';
-  include './functions/PostDate.php';
+  include './classes/GetContents.php';
+  include './classes/PostDate.php';
 
   $url = 'https://mamot.fr/api/v1/timelines/public';
   $contents = new GetContents($url);

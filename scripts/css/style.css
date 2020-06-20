@@ -121,3 +121,7 @@ h4 {
     line-height: 1.2em;
     max-height: calc(1.2em * 3 - 1px);
 }
+
+.invisible {
+    display: none;
+}

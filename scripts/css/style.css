@@ -1,0 +1,123 @@
+body {
+    background-color: rgb(22, 22, 22);
+}
+
+h4 {
+    color:white;
+}
+
+.status {
+    margin-bottom: 0.5rem;
+}
+
+.author {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.author-info {
+    margin: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.author-info .author-displayname {
+    font-size: 1.2rem;
+    text-decoration: none;
+    display: block;
+    font-weight: bolder;
+}
+
+.avatar {
+    width: 3rem;
+    height: 3rem;
+    border: none;
+    border-radius: 10%;
+}
+
+.content {
+    margin-left: 1rem;
+    overflow-wrap: break-word;
+}
+
+.content img {
+    max-width: 250px;
+}
+
+.enclosures {
+    padding: 0.5em 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.enclosure {
+    display: flex;
+    flex: 1 1 auto;
+    width: 50%;
+    border: none;
+    max-height: 12rem;
+}
+
+.enclosure > * {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.open-graph {
+    border: 1px solid rgb(82, 90, 99);
+    border-radius: 15px;
+}
+
+.open-graph a:hover {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.card-image {
+    flex-shrink: 0;
+    width: 150px;
+    max-width: 25%;
+}
+
+.card-image>img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+}
+
+.card-host {
+    color: white;
+    font-size: 12px;
+}
+
+.card-title h5 {
+    margin: 0;
+}
+
+.card-title h5:hover {
+    text-decoration: none;
+    color: #007BFF;
+}
+
+.card-content {
+    max-height: 100%;
+    margin: .5em;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.card-description {
+    margin: .5em 0 0;
+    color: white;
+    overflow: hidden;
+    line-height: 1.2em;
+    max-height: calc(1.2em * 3 - 1px);
+}

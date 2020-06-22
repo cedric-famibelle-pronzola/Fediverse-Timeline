@@ -125,3 +125,61 @@ h4 {
 .invisible {
     display: none;
 }
+
+label {
+    color: white;
+}
+
+body>h2, form>div>h2, #global-help, h2+small, #instance-id {
+    color: white;
+    text-align: center;
+}
+
+.grid-container {
+    margin-top: 1em;
+    max-width: 600px;
+}
+
+button.expanded {
+    font-weight: bold;
+}
+
+.switch.large.global {
+    text-align: center;
+    margin-bottom: 6em; 
+    padding-bottom: 1em;
+}
+
+#global-help {
+    margin: 3em 0;
+}
+
+.validation {
+    color: red;
+    margin-left: 2em;
+}
+
+#instance-id {
+    margin-bottom: 0.5em;
+}
+
+#last-id {
+    color: red;
+    font-weight: bold;
+}
+
+#iframe-container {
+    margin-top: 2em;
+}
+
+#iframe {
+    margin: auto;
+}
+
+#iframe-link {
+    margin: auto;
+    text-align: center;
+    border: 1px solid white;
+    color: white;
+    max-width: 500px;
+}

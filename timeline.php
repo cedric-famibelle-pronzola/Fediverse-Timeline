@@ -1,9 +1,43 @@
-<?php
-  include './classes/GetContents.php';
-  include './classes/PostDate.php';
+<head>
+    <meta charset="UTF-8">
+    <base target="_blank">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favico.png" type="image/png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.6.3/dist/css/foundation.min.css" integrity="sha256-ogmFxjqiTMnZhxCqVmcqTvjfe1Y/ec4WaRj/aQPvn+I=" crossorigin="anonymous">    <link rel="stylesheet" href="./scripts/css/style.css">
+    <link rel="stylesheet" href="./scripts/css/style.css">
+    <title>Fediverse Social Network Timeline</title>
+</head>
 
-  $url = 'https://mamot.fr/api/v1/timelines/public';
-  $contents = new GetContents($url);
+<?php
+
+  include('./connect.php');
+  $request = json_decode(file_get_contents('php://input'));
+
+  if(is_object($request) && property_exists($request, 'default')) {
+    $instanceDb = $request->id ? $db->getInstanceById($request->id) : $db->getInstanceById($db->lastInsert());
+    $instanceName = $instanceDb['name'];
+  } 
+  if (!is_object($request)) {
+    $lastInsert = $db->lastInsert();
+    $instanceDb = $db->getInstanceById($lastInsert);
+    $instanceName = $instanceDb['name'];
+  } else if (!property_exists($request, 'default')) {
+    $instance = new Instance($request);
+    $instanceName = $instance->getInstanceName();
+    $instanceId = $db->setInstance($instance);
+    $instanceDb = $db->getInstanceById($instanceId);
+  }
+
+  $instanceDbObject = new stdClass;
+  $instanceDbObject->instanceName = $instanceDb['name'];
+  $instanceDbObject->width = 400;
+  $instanceDbObject->height = 800;
+  $instanceDbObject->timelineChoice = $instanceDb['global'];
+  $createdInstance = new Instance($instanceDbObject);
+
+  $url = "https://{$createdInstance->getInstanceName()}/api/v1/timelines/public";
+  $contents = new GetContents($url, $createdInstance->getTimelineChoice());
   $noImg = 'https://place-hold.it/90x101?text=Pas d\'image';
 
 foreach($contents->getApiContents() as $content):
@@ -11,7 +45,7 @@ foreach($contents->getApiContents() as $content):
   $postSince = $postDate->getPostSince();
   $getPostDate = $postDate->getPostDate();
 ?>
-  <div class="status card text-white bg-dark">
+  <div id="integrate" class="status card text-white bg-dark">
     <div class="author card-header">
         <a class="avatar" href="<?= $content->account->url ?>">
             <img class="avatar" src="<?= $content->account->avatar ?>">
@@ -62,3 +96,5 @@ foreach($contents->getApiContents() as $content):
   </div>
 <?php
 endforeach;
+?>
+<script src="./scripts/js/main.js"></script>

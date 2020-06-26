@@ -9,6 +9,12 @@ class Database
 
     try {
       $this->db = new PDO('sqlite:./db/sntl.db');
+      $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $this->db->query("CREATE TABLE IF NOT EXISTS instances (
+        id INTEGER NOT NULL,
+        name TEXT NOT NULL,
+        global INTEGER DEFAULT 0,
+        PRIMARY KEY (id AUTOINCREMENT))");
     } catch (PDOException $e) {
       echo  $e->getMessage();
       return;

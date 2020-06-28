@@ -30,12 +30,8 @@ if (document.getElementById('last-id')) {
 }
 
 const fetchInterval = () => {
-  if (request) {
-    id = request.replace(search, '')
-  }
-
   const data = {
-    id: request ? id : null,
+    id: request ? request.replace(search, '') : null,
     instanceName: 'mamot.fr',
     width: 400,
     height: 800,

@@ -47,7 +47,28 @@
           <input id="height" type="number" placeholder="800">
         </label>
       </div>
-      <button type="button" class="success button expanded" id="form-text" name="form-text">Generate</button>
+      <button type="button" class="success button expanded" id="form-text" name="form-text">Select</button>
+    </form>
+    <h2>Or select one</h2>
+    <form id="instance-select">
+      <label>Instance name
+        <select id="selected-instance">
+          <?php
+            if(!empty($db->getInstanceList())):
+              foreach ($db->getInstanceList() as $instance):
+          ?>
+                <option value="<?= $instance['id']?>"><?= $instance['name'] ?><?= $instance['global'] === '1' ? " (global)" : " (local)" ?></option>
+          <?php
+              endforeach;
+            else:
+          ?>
+                <option value="0">No instance</option>
+          <?php
+            endif;
+          ?>
+        </select>
+      </label>
+      <button type="button" class="success button expanded" id="form-select" name="form-select">Generate</button>
     </form>
   </div>
     <div id="instance-id">Last generated instance ID : <span id="last-id"><?= $db->lastInsert() ?></span></div>

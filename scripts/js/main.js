@@ -80,7 +80,32 @@ const formTextSubmit = textForm => {
     })
 }
 
-if (document.getElementById('instance-text')) {
+const formSelectSubmit = selectForm => {
+  fetch('./timeline.php', {
+    method: 'POST',
+    body: JSON.stringify(selectForm),
+    headers: {
+      'Content-type': 'application/json; chartset=UTF-8'
+    }
+  })
+    .then(response => response.text())
+    .then(body => {
+      const iframe = document.getElementById('iframe')
+      const iframeLink = document.getElementById('iframe-link')
+      const intervalIframeLink = () => {
+        iframeLink.innerText = `<iframe width="400" height="800" allowfullscreen referrerpolicy="no-referrer" frameborder="0" src="${window.location}timeline.php?id=${parseInt(selectForm.id, 10)}"></iframe>`
+      }
+      setTimeout(intervalIframeLink, 1000)
+      iframeLink.style.display = 'block';
+      iframe.style.display = 'block';
+      iframe.setAttribute('width', 400)
+      iframe.setAttribute('height', 800)
+      return iframe.contentWindow.document.body.innerHTML = body
+    })
+}
+
+if (document.getElementById('instance-text') && document.getElementById('instance-select')) {
+  const selectedInstance = document.getElementById('selected-instance')
   let timelineChoice = false
   let textFormValidation = false
 
@@ -131,6 +156,21 @@ if (document.getElementById('instance-text')) {
       document.getElementById('errors').innerText='There are some errors in your form.'
     }
   })
+
+  document.getElementById('form-select').addEventListener('click', () => {
+    const selectedInstanceValue = selectedInstance.options[selectedInstance.selectedIndex].value
+    console.log(selectedInstanceValue)
+    if (selectedInstanceValue !== '0') {
+      const selectForm = {
+        id: selectedInstanceValue,
+        timelineChoice
+      }
+      formSelectSubmit(selectForm)
+    } else {
+      alert('There is no instance')
+    }
+  })
+
 }
 
 fetchInterval()

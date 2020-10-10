@@ -17,12 +17,16 @@
   if(is_object($request) && property_exists($request, 'default')) {
     $instanceDb = $request->id ? $db->getInstanceById($request->id) : $db->getInstanceById($db->lastInsert());
     $instanceName = $instanceDb['name'];
-  } 
+  } else if (is_object($request) && property_exists($request, 'id')) {
+    $instanceDb = $db->getInstanceById($request->id);
+    $instanceName = $instanceDb['name'];
+  }
   if (!is_object($request)) {
     $lastInsert = $db->lastInsert();
     $instanceDb = $db->getInstanceById($lastInsert);
     $instanceName = $instanceDb['name'];
-  } else if (!property_exists($request, 'default')) {
+  }
+  if (!property_exists($request, 'default') && !property_exists($request, 'id')) {
     $instance = new Instance($request);
     $instanceName = $instance->getInstanceName();
     $instanceId = $db->setInstance($instance);

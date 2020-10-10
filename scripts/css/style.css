@@ -130,7 +130,7 @@ label {
     color: white;
 }
 
-body>h2, form>div>h2, #global-help, h2+small, #instance-id {
+h2, #global-help, h2+small, #instance-id {
     color: white;
     text-align: center;
 }

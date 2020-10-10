@@ -17,6 +17,15 @@ class PostDate
 
   public function getPostSince()
   {
+    if($this->diff->y) {
+      $year = $this->diff->y >= 2 ? ' années' : ' année';
+      return "Il y a {$year}";
+    }
+
+    if($this->diff->m) {
+      return "Il y a {$this->diff->m} mois";
+    }
+
     if ($this->diff->days && $this->diff->days >= 7) {
       $week = $this->diff->days >= 14 ? ' semaines' : ' semaine';
       $nbWeek = '';

@@ -57,7 +57,8 @@ class Database
   {
     $query = $this->db->query('SELECT id FROM instances WHERE id = (SELECT MAX(id) FROM instances)');
     $result = $query->fetch(PDO::FETCH_ASSOC);
-    return (int) $result['id'];
+
+    return $result ? $result['id'] : 'no id';
   }
 
   public function getInstanceById(int $id)

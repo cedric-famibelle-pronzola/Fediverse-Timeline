@@ -50,7 +50,7 @@ class Database
       die;
     }
 
-    return (int) $this->db->lastInsertId();
+    return (int) $this->lastInsert();
   }
 
   public function lastInsert()

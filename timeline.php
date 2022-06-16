@@ -14,24 +14,30 @@
   include('./connect.php');
   $request = json_decode(file_get_contents('php://input'));
 
-  if(is_object($request) && property_exists($request, 'default')) {
-    $instanceDb = $request->id ? $db->getInstanceById($request->id) : $db->getInstanceById($db->lastInsert());
-    $instanceName = $instanceDb['name'];
-  } else if (is_object($request) && property_exists($request, 'id')) {
-    $instanceDb = $db->getInstanceById($request->id);
-    $instanceName = $instanceDb['name'];
+  if ($request) {
+    if(is_object($request) && property_exists($request, 'default')) {
+      $instanceDb = $request->id ? $db->getInstanceById($request->id) : $db->getInstanceById($db->lastInsert());
+      $instanceName = $instanceDb['name'];
+    } else if (is_object($request) && property_exists($request, 'id')) {
+      $instanceDb = $db->getInstanceById($request->id);
+      $instanceName = $instanceDb['name'];
+    }
+    if (!is_object($request)) {
+      $lastInsert = $db->lastInsert();
+      $instanceDb = $db->getInstanceById($lastInsert);
+      $instanceName = $instanceDb['name'];
+    }
+    if (!property_exists($request, 'default') && !property_exists($request, 'id')) {
+      $instance = new Instance($request);
+      $instanceName = $instance->getInstanceName();
+      $instanceId = $db->setInstance($instance);
+      $instanceDb = $db->getInstanceById($instanceId);
+    }
+  } else {
+    $id = $_GET['id'];
+    $instanceDb = $db->getInstanceById($id);
   }
-  if (!is_object($request)) {
-    $lastInsert = $db->lastInsert();
-    $instanceDb = $db->getInstanceById($lastInsert);
-    $instanceName = $instanceDb['name'];
-  }
-  if (!property_exists($request, 'default') && !property_exists($request, 'id')) {
-    $instance = new Instance($request);
-    $instanceName = $instance->getInstanceName();
-    $instanceId = $db->setInstance($instance);
-    $instanceDb = $db->getInstanceById($instanceId);
-  }
+
 
   $instanceDbObject = new stdClass;
   $instanceDbObject->instanceName = $instanceDb['name'];
@@ -39,6 +45,8 @@
   $instanceDbObject->height = 800;
   $instanceDbObject->timelineChoice = $instanceDb['global'];
   $createdInstance = new Instance($instanceDbObject);
+
+  var_dump($createdInstance);
 
   $url = "https://{$createdInstance->getInstanceName()}/api/v1/timelines/public";
   $contents = new GetContents($url, $createdInstance->getTimelineChoice());

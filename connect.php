@@ -8,4 +8,4 @@ function loadClasses($classe)
 spl_autoload_register('loadClasses');
 
 $db = new Database();
-$result = $db->query("SELECT * FROM instances");
+$db->setDefaultInstance();

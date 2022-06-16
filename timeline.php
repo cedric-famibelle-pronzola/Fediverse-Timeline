@@ -34,7 +34,8 @@
       $instanceDb = $db->getInstanceById($instanceId);
     }
   } else {
-    $instanceDb = $db->getInstanceById($db->lastInsert());
+    $id = $_GET['id'];
+    $instanceDb = $db->getInstanceById($id);
   }
 
 
@@ -44,6 +45,8 @@
   $instanceDbObject->height = 800;
   $instanceDbObject->timelineChoice = $instanceDb['global'];
   $createdInstance = new Instance($instanceDbObject);
+
+  var_dump($createdInstance);
 
   $url = "https://{$createdInstance->getInstanceName()}/api/v1/timelines/public";
   $contents = new GetContents($url, $createdInstance->getTimelineChoice());

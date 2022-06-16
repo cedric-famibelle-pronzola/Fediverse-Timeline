@@ -35,6 +35,34 @@ class Database
     return $query->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public function setDefaultInstance()
+  {
+    try {
+      $instance = $this->getInstanceById(1);
+
+      if ($instance) {
+        $lastInsertId = $this->lastInsert();
+        return $this->getInstanceById($lastInsertId);
+      }
+
+      $query = $this->db->prepare('INSERT INTO instances(name, global) VALUES("mamot.fr", 0)');
+      $query->execute();
+
+      if (!$query) {
+        throw new Exception();
+      }
+
+      $lastInsertId = $this->lastInsert();
+      return $this->getInstanceById($lastInsertId);
+
+    } catch (Exception $e) {
+      echo 'Bad Request';
+      die;
+    }
+
+    return (int) $this->db->lastInsert();
+  }
+
   public function setInstance(Instance $instance)
   {
     try {

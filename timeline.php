@@ -34,8 +34,12 @@
       $instanceDb = $db->getInstanceById($instanceId);
     }
   } else {
+    if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $instanceDb = $db->getInstanceById($id);
+    } else {
+      $instanceDb = $db->getInstanceById($db->lastInsert());
+    }
   }
 
 

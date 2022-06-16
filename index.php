@@ -14,19 +14,19 @@
 <body>
   <h2>Choose an instance</h2>
   <div class="switch large global">
-      <small class="validation" id="errors"></small>
-      <div>Do you want to display the global timeline ?</div>
-      <div>
-        <small><i>Yes = Global timeline</i></small> |
-        <small><i>No = Local timeline</i></small>
-      </div>
-      <input class="switch-input" id="yes-no" type="checkbox" name="global-local">
-      <label class="switch-paddle" for="yes-no">
-        <span class="show-for-sr">Do you want to display global timeline ?</span>
-        <span class="switch-active" aria-hidden="true">Yes</span>
-        <span class="switch-inactive" aria-hidden="true">No</span>
-      </label>
+    <small class="validation" id="errors"></small>
+    <div>Do you want to display the global timeline ?</div>
+    <div>
+      <small><i>Yes = Global timeline</i></small> |
+      <small><i>No = Local timeline</i></small>
     </div>
+    <input class="switch-input" id="yes-no" type="checkbox" name="global-local">
+    <label class="switch-paddle" for="yes-no">
+      <span class="show-for-sr">Do you want to display global timeline ?</span>
+      <span class="switch-active" aria-hidden="true">Yes</span>
+      <span class="switch-inactive" aria-hidden="true">No</span>
+    </label>
+  </div>
   <div class="grid-container">
     <form id="instance-text" data-abide novalidate>
       <div>
@@ -47,7 +47,7 @@
           <input id="height" type="number" placeholder="800">
         </label>
       </div>
-      <button type="button" class="success button expanded" id="form-text" name="form-text">Select</button>
+      <button type="button" class="success button expanded" id="form-text" name="form-text">Create integration</button>
     </form>
     <h2>Or select one</h2>
     <form id="instance-select">
@@ -57,7 +57,7 @@
             if(!empty($db->getInstanceList())):
               foreach ($db->getInstanceList() as $instance):
           ?>
-                <option value="<?= $instance['id']?>"><?= $instance['name'] ?><?= $instance['global'] === '1' ? " (global)" : " (local)" ?></option>
+                <option value="<?= $instance['id']?>"><?= $instance['name'] ?><?= $instance['global'] === '1' ? " (global)" : " (local)" ?> -> (ID : <?= $instance['id'] ?>)</option>
           <?php
               endforeach;
             else:

@@ -71,6 +71,32 @@ foreach($contents->getApiContents() as $content):
     <div class="content">
         <p> <span class="text-danger"><?= $content->spoiler_text ? $content->spoiler_text . '<br />' : null ?></span> <?= $content->content ?></p>
     </div>
+    <?php
+      if ($content->media_attachments):
+        $medias = $content->media_attachments;
+        foreach($medias as $media):
+          $type = $media->type;
+          if ($type === 'video'):
+    ?>
+      <div class="container text-center">
+        <video controls width="250">
+          <source src="<?= $media->url ?>" type="">
+        </video>
+      </div>
+    <?php
+          endif;
+          if ($type === 'audio'):
+    ?>
+      <div style="width: 250px;">
+        <audio controls width="250">
+          <source src="<?= $media->url ?>" type="">
+        </audio>
+      </div>
+    <?php
+          endif;
+        endforeach;
+      endif;
+    ?>
     <div class="enclosures">
       <?php
         if(!empty($content->media_attachments)):

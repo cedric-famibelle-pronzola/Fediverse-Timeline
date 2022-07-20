@@ -1,5 +1,4 @@
-# Fediverse-SNTL
-## Fediverse Social Network Timeline
+# Fediverse Timeline
 
 You can display and integrate any timeline instance from fediverse (tested with mastodon & pleroma)
 
